@@ -1,4 +1,4 @@
-﻿using Infrastructure.Model.Dtos;
+﻿using Infra.Model.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;

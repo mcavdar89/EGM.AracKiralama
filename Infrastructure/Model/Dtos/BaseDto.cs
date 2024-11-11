@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Model.Dtos
+namespace Infra.Model.Dtos
 {
     public abstract class BaseDto
     {
