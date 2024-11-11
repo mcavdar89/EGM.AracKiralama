@@ -1,4 +1,11 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using EGM.AracKiralama.BL.Abstracts;
+using EGM.AracKiralama.BL.Concretes;
+using EGM.AracKiralama.DAL.Abstracts;
+using EGM.AracKiralama.DAL.Concretes;
+using EGM.AracKiralama.DAL.Contexts;
+using EGM.AracKiralama.Model.Profiles;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -41,6 +48,14 @@ builder.Services.AddSwaggerGen(swagger =>
                 });
 });
 
+builder.Services.AddDbContext<AracKiralamaDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("AracKiralamaConnection"));
+});
+
+builder.Services.AddAutoMapper(typeof(AracKiralamaProfile));
+builder.Services.AddScoped<IAracKiralamaRepository, AracKiralamaRepository>();
+builder.Services.AddScoped<IVehicleService, VehicleService>();
 
 
 

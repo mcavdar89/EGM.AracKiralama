@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EGM.AracKiralama.Model.Entities
 {
-    public class Model : BaseEntity<short>
+    public class BrandModel : BaseEntity<short>
     {
         public string Name { get; set; }
 

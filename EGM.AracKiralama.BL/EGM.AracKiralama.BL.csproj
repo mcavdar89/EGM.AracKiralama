@@ -7,8 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Abstracts\" />
-    <Folder Include="Concretes\" />
+    <ProjectReference Include="..\EGM.AracKiralama.DAL\EGM.AracKiralama.DAL.csproj" />
   </ItemGroup>
 
 </Project>
