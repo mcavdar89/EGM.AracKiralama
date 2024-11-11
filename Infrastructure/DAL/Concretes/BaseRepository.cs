@@ -286,6 +286,22 @@ namespace Infra.DAL.Concretes
             return await result.ToListAsync();
         }
 
+        public async Task<TModel>? GetProjectAsync<TEntity, TModel>(
+       Expression<Func<TEntity, bool>>? filter = null
+       ) where TEntity : Entity
+        {
+            IQueryable<TEntity> dbSet = _context.Set<TEntity>();
+            if (filter != null)
+            {
+                dbSet = dbSet.Where(filter);
+            }           
 
+            var result = _mapper.ProjectTo<TModel>(dbSet);
+
+            //if (result == null)
+            //    return new TModel();
+
+            return await result.FirstOrDefaultAsync();
+        }
     }
 }

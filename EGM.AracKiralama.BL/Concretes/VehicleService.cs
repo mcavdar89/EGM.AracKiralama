@@ -25,7 +25,12 @@ namespace EGM.AracKiralama.BL.Concretes
 
             return data;
         }
+        public async Task<VehicleDetailDto> GetActiveVehicle(string plate)
+        {
+            var data = await _aracKiralamaRepository.GetProjectAsync<Vehicle,VehicleDetailDto>(d=>d.Plate == plate);
 
+            return data;
+        }
 
 
     }

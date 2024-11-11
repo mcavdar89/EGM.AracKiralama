@@ -49,7 +49,9 @@ namespace Infra.DAL.Abstracts
           Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null
           ) where TEntity : Entity;
 
-
+        Task<TModel>? GetProjectAsync<TEntity, TModel>(
+       Expression<Func<TEntity, bool>>? filter = null
+       ) where TEntity : Entity;
 
     }
 }

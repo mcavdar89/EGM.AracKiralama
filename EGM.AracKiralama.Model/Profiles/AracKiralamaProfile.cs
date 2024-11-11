@@ -19,7 +19,10 @@ namespace EGM.AracKiralama.Model.Profiles
                 .ForMember(dest => dest.ModelAd, opt => opt.MapFrom(src => src.Model.Name))
             ;
 
-
+            CreateMap<Vehicle, VehicleDetailDto>()
+               .ForMember(dest => dest.BrandAd, opt => opt.MapFrom(src => src.Brand.Name))
+               .ForMember(dest => dest.ModelAd, opt => opt.MapFrom(src => src.Model.Name))
+           ;
 
 
         }

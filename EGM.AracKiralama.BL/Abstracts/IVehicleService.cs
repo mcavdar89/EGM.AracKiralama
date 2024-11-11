@@ -10,5 +10,6 @@ namespace EGM.AracKiralama.BL.Abstracts
     public interface IVehicleService
     {
         Task<List<VehicleListDto>> GetActiveVehicles();
+        Task<VehicleDetailDto> GetActiveVehicle(string plate);
     }
 }

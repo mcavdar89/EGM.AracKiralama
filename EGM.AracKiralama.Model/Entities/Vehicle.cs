@@ -12,17 +12,17 @@ namespace EGM.AracKiralama.Model.Entities
     {
         public string Plate { get; set; }
         public string Color { get; set; }
-        public string Year { get; set; }
+        public int Year { get; set; }
         public string FuelType { get; set; }
 
         public short BrandId { get; set; }
 
-        public short ModelId { get; set; }
+        public short? ModelId { get; set; }
 
         public decimal DailyPrice { get; set; }
 
         [ForeignKey("ModelId")]
-        public virtual BrandModel Model { get; set; }
+        public virtual BrandModel? Model { get; set; }
         public virtual Brand Brand { get; set; }
 
     }
