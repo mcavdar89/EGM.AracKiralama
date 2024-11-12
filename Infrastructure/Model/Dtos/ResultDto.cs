@@ -8,9 +8,9 @@ namespace Infra.Model.Dtos
 {
     public class ResultDto<T> where T : class, new()
     {
-        T? Data { get; set; }
-        bool IsSuccess { get; set; }
-        string? Message { get; set; }
+        public T? Data { get; set; }
+        public bool IsSuccess { get; set; }
+        public string? Message { get; set; }
 
         public static ResultDto<T> Success(T data, string? message = null)
         {

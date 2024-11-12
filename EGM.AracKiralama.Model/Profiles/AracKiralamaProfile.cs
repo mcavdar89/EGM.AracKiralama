@@ -24,6 +24,7 @@ namespace EGM.AracKiralama.Model.Profiles
                .ForMember(dest => dest.ModelAd, opt => opt.MapFrom(src => src.Model.Name))
            ;
 
+            CreateMap<User, UserDto>();
 
         }
 

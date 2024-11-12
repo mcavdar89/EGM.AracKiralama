@@ -5,13 +5,38 @@ using EGM.AracKiralama.DAL.Abstracts;
 using EGM.AracKiralama.DAL.Concretes;
 using EGM.AracKiralama.DAL.Contexts;
 using EGM.AracKiralama.Model.Profiles;
+using Infrastructure.Model.Dtos;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Text;
 
 
 var builder = WebApplication.CreateBuilder(args);
 //API servislerini eklemek için
 builder.Services.AddControllers();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>();
+
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateAudience = true,
+            ValidateIssuer = true,
+            ValidAudience = jwtSettings.Audience,
+            ValidIssuer = jwtSettings.Issuer,
+            ValidateLifetime = true,
+            IssuerSigningKey =new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey))
+        };
+
+
+    });
+builder.Services.AddAuthorization();
+
+
 
 builder.Services.AddSwaggerGen(swagger =>
 {
@@ -53,10 +78,10 @@ builder.Services.AddDbContext<AracKiralamaDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("AracKiralamaConnection"));
 });
-
 builder.Services.AddAutoMapper(typeof(AracKiralamaProfile));
 builder.Services.AddScoped<IAracKiralamaRepository, AracKiralamaRepository>();
 builder.Services.AddScoped<IVehicleService, VehicleService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 
 
@@ -65,6 +90,10 @@ var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
+
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseMiddleware<FirstMiddleWare>();
 app.UseMiddleware<SecondMiddleWare>();

@@ -1,9 +1,11 @@
 ﻿using EGM.AracKiralama.BL.Abstracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EGM.AracKiralama.API.Controllers
 {
+    [Authorize(Roles ="admin")]
     [Route("api/[controller]")]
     [ApiController]
     public class VehicleController : ControllerBase
