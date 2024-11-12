@@ -1,4 +1,5 @@
-﻿using EGM.AracKiralama.BL.Abstracts;
+﻿using EGM.AracKiralama.API.MiddleWares;
+using EGM.AracKiralama.BL.Abstracts;
 using EGM.AracKiralama.BL.Concretes;
 using EGM.AracKiralama.DAL.Abstracts;
 using EGM.AracKiralama.DAL.Concretes;
@@ -64,6 +65,11 @@ var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.UseMiddleware<FirstMiddleWare>();
+app.UseMiddleware<SecondMiddleWare>();
+
+
 
 app.MapDefaultControllerRoute();
 
