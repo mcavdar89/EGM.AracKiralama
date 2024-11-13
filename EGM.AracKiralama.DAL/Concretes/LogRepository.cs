@@ -13,7 +13,7 @@ namespace EGM.AracKiralama.DAL.Concretes
 {
     public class LogRepository:BaseRepository, ILogRepository
     {      
-        public LogRepository(AracKiralamaDbContext context, IMapper mapper):base(context,mapper)
+        public LogRepository(LogDBContext context, IMapper mapper):base(context,mapper)
         {
            
 
