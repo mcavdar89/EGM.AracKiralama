@@ -1,4 +1,5 @@
 ﻿using EGM.AracKiralama.BL.Abstracts;
+using EGM.AracKiralama.Model.Dtos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -29,5 +30,14 @@ namespace EGM.AracKiralama.API.Controllers
             var data = await _service.GetActiveVehicle(plate);
             return Ok(data);
         }
+
+        [HttpPost("add")]
+        public async Task<IActionResult> AddVehicleAsync([FromBody] VehicleFormDto vehicle)
+        {
+            var result =await _service.AddVehicle(vehicle);
+            return Ok(result);
+        }
+
+
     }
 }

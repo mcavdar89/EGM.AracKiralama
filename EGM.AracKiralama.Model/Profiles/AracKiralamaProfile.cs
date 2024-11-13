@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace EGM.AracKiralama.Model.Profiles
 {
-    public class AracKiralamaProfile:Profile
+    public class AracKiralamaProfile : Profile
     {
         public AracKiralamaProfile()
         {
@@ -23,7 +23,7 @@ namespace EGM.AracKiralama.Model.Profiles
                .ForMember(dest => dest.BrandAd, opt => opt.MapFrom(src => src.Brand.Name))
                .ForMember(dest => dest.ModelAd, opt => opt.MapFrom(src => src.Model.Name))
            ;
-
+            CreateMap<VehicleFormDto, Vehicle>();
             CreateMap<User, UserDto>();
 
         }

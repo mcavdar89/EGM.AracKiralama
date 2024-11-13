@@ -1,7 +1,9 @@
-﻿using EGM.AracKiralama.BL.Abstracts;
+﻿using AutoMapper;
+using EGM.AracKiralama.BL.Abstracts;
 using EGM.AracKiralama.DAL.Abstracts;
 using EGM.AracKiralama.Model.Dtos;
 using EGM.AracKiralama.Model.Entities;
+using Infra.Model.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +15,11 @@ namespace EGM.AracKiralama.BL.Concretes
     public class VehicleService:IVehicleService
     {
         private readonly IAracKiralamaRepository _aracKiralamaRepository;
-        public VehicleService(IAracKiralamaRepository aracKiralamaRepository)
+        private readonly IMapper _mapper;
+        public VehicleService(IAracKiralamaRepository aracKiralamaRepository,IMapper mapper)
         {
             _aracKiralamaRepository = aracKiralamaRepository;
+            _mapper = mapper;
         }
 
 
@@ -31,7 +35,16 @@ namespace EGM.AracKiralama.BL.Concretes
 
             return data;
         }
+        public async Task<ResultDto<VehicleFormDto>> AddVehicle(VehicleFormDto item)
+        {
+            var data = _mapper.Map<Vehicle>(item);
+            await _aracKiralamaRepository.AddAsync(data);
+            await _aracKiralamaRepository.SaveChangesAsync();
 
+            item.Id = data.Id;
+
+            return ResultDto<VehicleFormDto>.Success(item);
+        }
 
     }
 }

@@ -1,4 +1,5 @@
 ﻿using EGM.AracKiralama.Model.Dtos;
+using Infra.Model.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace EGM.AracKiralama.BL.Abstracts
     {
         Task<List<VehicleListDto>> GetActiveVehicles();
         Task<VehicleDetailDto> GetActiveVehicle(string plate);
+        Task<ResultDto<VehicleFormDto>> AddVehicle(VehicleFormDto item);
     }
 }
