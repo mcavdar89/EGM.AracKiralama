@@ -23,6 +23,8 @@ namespace EGM.AracKiralama.DAL.Contexts
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<Vehicle> Vehicle { get; set; }
 
+        public virtual DbSet<LogTable> LogTable { get; set; }
+
 
 
     }
