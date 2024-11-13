@@ -29,8 +29,10 @@ namespace EGM.AracKiralama.API.Middlewares
                 string requestBody = await ReadRequestBodyAsync(context.Request);
 
                 await _next.Invoke(context);
-
-                string responseText = await ReadResponseBodyAsync(responseBody);
+                responseBody.Position = 0;
+                string responseText = await new StreamReader(responseBody).ReadToEndAsync();
+                    
+                    //await ReadResponseBodyAsync(responseBody);
 
                 LogTable log = new LogTable()
                 {
@@ -47,6 +49,7 @@ namespace EGM.AracKiralama.API.Middlewares
 
                 await logService.AddLogAsync(log);
 
+                responseBody.Position = 0;
                 await responseBody.CopyToAsync(originalBodyStream);
             }
             catch (Exception)

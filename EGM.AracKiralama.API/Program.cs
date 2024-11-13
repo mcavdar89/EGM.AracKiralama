@@ -1,4 +1,5 @@
-﻿using EGM.AracKiralama.API.MiddleWares;
+﻿using EGM.AracKiralama.API.Middlewares;
+using EGM.AracKiralama.API.MiddleWares;
 using EGM.AracKiralama.BL.Abstracts;
 using EGM.AracKiralama.BL.Concretes;
 using EGM.AracKiralama.DAL.Abstracts;
@@ -79,6 +80,8 @@ builder.Services.AddDbContext<AracKiralamaDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("AracKiralamaConnection"));
 });
 builder.Services.AddAutoMapper(typeof(AracKiralamaProfile));
+builder.Services.AddScoped<ILogRepository, LogRepository>();
+builder.Services.AddScoped<ILogService, LogService>();
 builder.Services.AddScoped<IAracKiralamaRepository, AracKiralamaRepository>();
 builder.Services.AddScoped<IVehicleService, VehicleService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
@@ -91,14 +94,10 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
+app.UseMiddleware<LogMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.UseMiddleware<FirstMiddleWare>();
-app.UseMiddleware<SecondMiddleWare>();
-
-
 
 app.MapDefaultControllerRoute();
 
