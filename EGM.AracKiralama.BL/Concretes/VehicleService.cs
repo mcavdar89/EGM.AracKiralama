@@ -4,6 +4,7 @@ using EGM.AracKiralama.DAL.Abstracts;
 using EGM.AracKiralama.Model.Dtos;
 using EGM.AracKiralama.Model.Entities;
 using Infra.Model.Dtos;
+using Infrastructure.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,10 @@ namespace EGM.AracKiralama.BL.Concretes
         }
         public async Task<VehicleDetailDto> GetActiveVehicle(string plate)
         {
+            //if
+            throw new Saat20SonrasiException("Araç sorgulamada 20:00 sonrası işlem yapmaya çalıştı.");
+
+
             var data = await _aracKiralamaRepository.GetProjectAsync<Vehicle,VehicleDetailDto>(d=>d.Plate == plate);
 
             return data;

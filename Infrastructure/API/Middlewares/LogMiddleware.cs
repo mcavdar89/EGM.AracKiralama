@@ -2,6 +2,7 @@
 using Infra.BL.Abstracts;
 using Infra.Model.Dtos;
 using Infra.Model.Entities;
+using Infrastructure.Exceptions;
 using Infrastructure.Model.Dtos;
 using Microsoft.AspNetCore.Http;
 using System.IO;
@@ -35,7 +36,7 @@ namespace Infra.API.Middlewares
             };
 
             stratTime = DateTime.UtcNow;
-            
+
 
             originalBodyStream = context.Response.Body;
             // Akışı kapatmadan işlemi yapabilmek için yeni bir MemoryStream oluşturun
@@ -46,7 +47,7 @@ namespace Infra.API.Middlewares
             {
 
                 using (var transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-                {                   
+                {
 
                     // İstek gövdesini MemoryStream'e kopyalayın
                     await context.Request.Body.CopyToAsync(memoryStreamRequestBody);
@@ -62,10 +63,12 @@ namespace Infra.API.Middlewares
                     // Okuma işlemi için tekrar başa döndürün
                     memoryStreamRequestBody.Position = 0;
 
-
-
-
                     await _next.Invoke(context);
+                    // StatusCode 401 ise özel bir mesaj döndür
+                    if (context.Response.StatusCode >= 300)
+                    {
+                        throw new UnauthorizedAccessException();
+                    }
 
                     int userId = Convert.ToInt32(context.User.Claims.FirstOrDefault(c => c.Type == "id")?.Value);
 
@@ -108,12 +111,10 @@ namespace Infra.API.Middlewares
                 context.Response.Body = originalBodyStream;
 
                 //responseBody.Position = 0;
-               // await responseBody.CopyToAsync(originalBodyStream);
+                // await responseBody.CopyToAsync(originalBodyStream);
 
-               
+
             }
-
-
 
         }
 
@@ -122,6 +123,28 @@ namespace Infra.API.Middlewares
         {
             int userId = Convert.ToInt32(context.User.Claims.FirstOrDefault(c => c.Type == "id")?.Value);
             string erorMessage = exception.Message;
+            string clientMesaj = "";
+
+
+            switch (exception)
+            {
+                case UnauthorizedAccessException:
+                    clientMesaj = "Login olmadan işlem gerçekleştiremezsiniz.";
+                    break;
+
+                case Saat20SonrasiException:
+                    clientMesaj = "Saat 20:00'dan sonra işlem gerçekleştiremezsiniz.";
+                    //bu hataya özel işlem yapacaksam burada yapmalıyım
+                    break;
+
+                default:
+                    clientMesaj = "Beklenmeye bir hata oluştu";
+                    break;
+            }
+
+
+
+
 
 
 
@@ -145,7 +168,7 @@ namespace Infra.API.Middlewares
 
             context.Response.Body = originalBodyStream;
 
-            await context.Response.WriteAsync(JsonSerializer.Serialize( ResultDto<NoContent>.Error($"Hata kodu : {errorLogTable.Id} Mesaj : Bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.", null)));
+            await context.Response.WriteAsync(JsonSerializer.Serialize(ResultDto<NoContent>.Error($"Hata kodu : {errorLogTable.Id} Mesaj : {clientMesaj}", null)));
 
 
 
