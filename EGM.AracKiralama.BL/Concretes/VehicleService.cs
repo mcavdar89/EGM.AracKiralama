@@ -4,6 +4,7 @@ using EGM.AracKiralama.DAL.Abstracts;
 using EGM.AracKiralama.Model.Dtos;
 using EGM.AracKiralama.Model.Entities;
 using Infra.Model.Dtos;
+using Infrastructure.Cache;
 using Infrastructure.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -17,16 +18,30 @@ namespace EGM.AracKiralama.BL.Concretes
     {
         private readonly IAracKiralamaRepository _aracKiralamaRepository;
         private readonly IMapper _mapper;
-        public VehicleService(IAracKiralamaRepository aracKiralamaRepository,IMapper mapper)
+        private readonly ICacheService _cacheService;
+        public VehicleService(IAracKiralamaRepository aracKiralamaRepository,IMapper mapper, ICacheService cacheService)
         {
             _aracKiralamaRepository = aracKiralamaRepository;
             _mapper = mapper;
+            _cacheService = cacheService;
         }
 
 
         public async Task<List<VehicleListDto>> GetActiveVehicles()
         {
+            var list = await _cacheService.GetObjectAsync<List<VehicleListDto>>("ActiveVehicles");
+
+            if(list != null)
+            {
+                return list;
+            }
+
+
             var data = await _aracKiralamaRepository.ListProjectAsync<Vehicle, VehicleListDto>(d=>d.StatusId != 0);
+
+            await _cacheService.SetObjectAsync("ActiveVehicles", data);
+
+
 
             return data;
         }
