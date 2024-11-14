@@ -39,35 +39,7 @@ namespace EGM.AracKiralama.API.Controllers
         }
 
 
-        void islem1()
-        {
-            Deger deger = new(); 
-
-            deger.a = 5;
-
-            islem2(deger);
-
-            Console.WriteLine(deger.a);
-
-
-        }
-
-        void islem2(Deger deger)
-        {
-             deger.a += 7;
-        }
-
-
-
-
-
 
     }
-
-
-    public class Deger
-    {
-       public int a { get; set;}
-
 
 }

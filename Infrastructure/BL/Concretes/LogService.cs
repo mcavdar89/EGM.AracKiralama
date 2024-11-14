@@ -1,13 +1,8 @@
-﻿using EGM.AracKiralama.BL.Abstracts;
-using EGM.AracKiralama.DAL.Abstracts;
-using EGM.AracKiralama.Model.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Infra.BL.Abstracts;
+using Infra.DAL.Abstracts;
+using Infra.Model.Entities;
 
-namespace EGM.AracKiralama.BL.Concretes
+namespace Infra.BL.Concretes
 {
     public class LogService:ILogService
     {

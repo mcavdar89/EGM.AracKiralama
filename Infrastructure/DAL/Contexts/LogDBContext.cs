@@ -1,12 +1,7 @@
-﻿using EGM.AracKiralama.Model.Entities;
+﻿using Infra.Model.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace EGM.AracKiralama.DAL.Contexts
+namespace Infra.DAL.Contexts
 {
     public class LogDBContext : DbContext
     {
@@ -15,6 +10,7 @@ namespace EGM.AracKiralama.DAL.Contexts
 
         }
         public virtual DbSet<LogTable> LogTable { get; set; }
+        public virtual DbSet<ErrorLogTable> ErrorLogTable { get; set; }
 
 
 

@@ -1,11 +1,11 @@
-﻿using EGM.AracKiralama.API.Middlewares;
-using EGM.AracKiralama.API.MiddleWares;
-using EGM.AracKiralama.BL.Abstracts;
+﻿using EGM.AracKiralama.BL.Abstracts;
 using EGM.AracKiralama.BL.Concretes;
 using EGM.AracKiralama.DAL.Abstracts;
 using EGM.AracKiralama.DAL.Concretes;
 using EGM.AracKiralama.DAL.Contexts;
 using EGM.AracKiralama.Model.Profiles;
+using Infra.API.Middlewares;
+using Infra.Extensions;
 using Infrastructure.Model.Dtos;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +13,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Transactions;
-
 
 var builder = WebApplication.CreateBuilder(args);
 //API servislerini eklemek için
@@ -26,8 +25,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
         options.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidateAudience = true,
-            ValidateIssuer = true,
+            ValidateAudience = false,
+            ValidateIssuer = false,
             ValidAudience = jwtSettings.Audience,
             ValidIssuer = jwtSettings.Issuer,
             ValidateLifetime = true,
@@ -80,17 +79,14 @@ builder.Services.AddDbContext<AracKiralamaDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("AracKiralamaConnection"));
 });
-builder.Services.AddDbContext<LogDBContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("LogDBConnection"));
-});
-
-
+#region LogService ayarları
+builder.Services.AddEGMLog(builder.Configuration.GetConnectionString("LogDbConnection"));
+#endregion
 
 
 builder.Services.AddAutoMapper(typeof(AracKiralamaProfile));
-builder.Services.AddScoped<ILogRepository, LogRepository>();
-builder.Services.AddScoped<ILogService, LogService>();
+
+
 builder.Services.AddScoped<IAracKiralamaRepository, AracKiralamaRepository>();
 builder.Services.AddScoped<IVehicleService, VehicleService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
