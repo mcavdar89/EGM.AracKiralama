@@ -1,15 +1,25 @@
 ﻿
 using Infra.BL.Abstracts;
+using Infra.Model.Dtos;
 using Infra.Model.Entities;
+using Infrastructure.Model.Dtos;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Text;
+using System.Text.Json;
 using System.Transactions;
 
 namespace Infra.API.Middlewares
 {
     public class LogMiddleware
     {
+        string requestBody = "";
+        string responseText = "";
+        ILogService _logService;
+        DateTime stratTime;
+        Stream originalBodyStream;
+
+
         private readonly RequestDelegate _next;
         public LogMiddleware(RequestDelegate next)
         {
@@ -18,44 +28,39 @@ namespace Infra.API.Middlewares
 
         public async Task InvokeAsync(HttpContext context, ILogService logService)
         {
-
+            _logService = logService;
             var transctionOptions = new TransactionOptions
             {
                 IsolationLevel = IsolationLevel.ReadUncommitted
             };
 
+            stratTime = DateTime.UtcNow;
+            
 
-
-
-            var stratTime = DateTime.UtcNow;
-
-            var originalBodyStream = context.Response.Body;
+            originalBodyStream = context.Response.Body;
             // Akışı kapatmadan işlemi yapabilmek için yeni bir MemoryStream oluşturun
-            var memoryStream = new MemoryStream();
-            await using var responseBody = new MemoryStream();
-            context.Response.Body = responseBody;//bc23
+            var memoryStreamRequestBody = new MemoryStream();
+            var memoryStreamResponseBody = new MemoryStream();
+            context.Response.Body = memoryStreamResponseBody;
             try
             {
 
                 using (var transactionScope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-                {
-
-                    //string requestBody = await ReadRequestBodyAsync(context.Request);
-                    string requestBody = "";
+                {                   
 
                     // İstek gövdesini MemoryStream'e kopyalayın
-                    await context.Request.Body.CopyToAsync(memoryStream);
+                    await context.Request.Body.CopyToAsync(memoryStreamRequestBody);
 
                     // Başlangıca dönerek tekrar okuma için sıfırlayın
-                    memoryStream.Position = 0;
-                    context.Request.Body = memoryStream;
+                    memoryStreamRequestBody.Position = 0;
+                    context.Request.Body = memoryStreamRequestBody;
 
                     // İsteğin gövdesini bir kere okuyup loglayabilirsiniz
-                    requestBody = await new StreamReader(memoryStream).ReadToEndAsync();
+                    requestBody = await new StreamReader(memoryStreamRequestBody).ReadToEndAsync();
                     //Console.WriteLine($"Request Body: {requestBody}");
 
                     // Okuma işlemi için tekrar başa döndürün
-                    memoryStream.Position = 0;
+                    memoryStreamRequestBody.Position = 0;
 
 
 
@@ -65,10 +70,9 @@ namespace Infra.API.Middlewares
                     int userId = Convert.ToInt32(context.User.Claims.FirstOrDefault(c => c.Type == "id")?.Value);
 
 
-                    responseBody.Position = 0;
-                    string responseText = await new StreamReader(responseBody).ReadToEndAsync();
+                    memoryStreamResponseBody.Position = 0;
+                    responseText = await new StreamReader(memoryStreamResponseBody).ReadToEndAsync();
 
-                    //await ReadResponseBodyAsync(responseBody);
 
                     LogTable log = new LogTable()
                     {
@@ -87,23 +91,26 @@ namespace Infra.API.Middlewares
 
                     transactionScope.Complete();
 
-
-
+                    memoryStreamResponseBody.Position = 0;
+                    await memoryStreamResponseBody.CopyToAsync(originalBodyStream);
                 }
 
             }
             catch (Exception ex)
             {
+                await this.HandleExceptionAsync(context, ex);
+
 
                 //throw;
             }
             finally
             {
-                //context.Response.Body = originalBodyStream;
-                responseBody.Position = 0;
-                await responseBody.CopyToAsync(originalBodyStream);
+                context.Response.Body = originalBodyStream;
 
-                memoryStream.Dispose();
+                //responseBody.Position = 0;
+               // await responseBody.CopyToAsync(originalBodyStream);
+
+               
             }
 
 
@@ -111,34 +118,39 @@ namespace Infra.API.Middlewares
         }
 
 
-
-        //private async Task<string> ReadRequestBodyAsync(HttpRequest request)
-        //{
-
-        //    var reader = request.BodyReader;
-        //    var readResult = await reader.ReadAsync();
-        //    var buffer = readResult.Buffer;
-
-
-
-        //    ///request.EnableBuffering();
-        //    //request.Body.Seek(0, SeekOrigin.Begin);
-        //    //using var reader = new StreamReader(request.Body, encoding: Encoding.UTF8, detectEncodingFromByteOrderMarks: false, leaveOpen: true);
-        //    //var body = await reader.ReadToEndAsync();
-        //    //request.Body.Position = 0;
-        //    //return body;
-
-
-        //}
-
-        private async Task<string> ReadResponseBodyAsync(Stream responseBody)
+        private async Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
-            responseBody.Position = 0;
-            using var reader = new StreamReader(responseBody);
-            var body = await reader.ReadToEndAsync();
-            responseBody.Position = 0;
-            return body;
+            int userId = Convert.ToInt32(context.User.Claims.FirstOrDefault(c => c.Type == "id")?.Value);
+            string erorMessage = exception.Message;
+
+
+
+
+            ErrorLogTable errorLogTable = new()
+            {
+                StatusId = 0,
+                UserId = userId,
+                RequestPath = context.Request.Path,
+                RequestBody = requestBody,
+                ResponseBody = responseText,
+                ApplicationId = 1,
+                LogMessage = erorMessage,
+                ErrorCode = context.Response.StatusCode,
+                IpAddress = context.Connection.RemoteIpAddress.ToString(),
+                LastTransactionDate = DateTime.Now,
+                ProcessTime = Convert.ToInt64((DateTime.UtcNow - stratTime).TotalMilliseconds)
+            };
+
+            await _logService.AddErrorLogAsync(errorLogTable);
+
+            context.Response.Body = originalBodyStream;
+
+            await context.Response.WriteAsync(JsonSerializer.Serialize( ResultDto<NoContent>.Error($"Hata kodu : {errorLogTable.Id} Mesaj : Bir hata oluştu. Lütfen daha sonra tekrar deneyiniz.", null)));
+
+
+
         }
+
 
 
 

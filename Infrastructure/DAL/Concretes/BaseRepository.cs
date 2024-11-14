@@ -203,19 +203,22 @@ namespace Infra.DAL.Concretes
 
         public async Task<int> SaveChangesAsync()
         {
-            try
-            {
-                return await _context.SaveChangesAsync(default);
-            }
-            catch (Exception ex)
-            {
-                Rollback();
-                throw ex ?? new Exception("SaveChanges işleminde beklenmeye bir hata ile kaşılaşıldı.");
-            }
-            finally
-            {
-                Clear();
-            }
+            return await _context.SaveChangesAsync(default);
+
+
+            //try
+            //{
+            //return await _context.SaveChangesAsync(default);
+            //}
+            //catch (Exception ex)
+            //{
+            //    Rollback();
+            //    throw ex ?? new Exception("SaveChanges işleminde beklenmeye bir hata ile kaşılaşıldı.");
+            //}
+            //finally
+            //{
+            //    //Clear();
+            //}
         }
 
         public void Rollback()

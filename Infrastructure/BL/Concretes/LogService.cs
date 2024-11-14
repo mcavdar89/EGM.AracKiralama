@@ -18,7 +18,12 @@ namespace Infra.BL.Concretes
             await _repository.AddAsync(log);
             await _repository.SaveChangesAsync();
         }
-
+        public async Task AddErrorLogAsync(ErrorLogTable log)
+        {
+            _repository.Clear();
+            await _repository.AddAsync(log);
+            await _repository.SaveChangesAsync();
+        }
 
 
 
