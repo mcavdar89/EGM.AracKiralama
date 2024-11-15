@@ -17,12 +17,16 @@ namespace Infrastructure.Cache
 
         }
 
-        public async Task SetStringAsync(string key, string value, TimeSpan? expiration = null)
+        public async Task SetStringAsync(string key, string value, int? durationSeconds = -1)
         {
-            if(expiration == null)
+            if(durationSeconds == null||durationSeconds == -1)
                 await _distributedCache.SetStringAsync(key, value);
             else
-            await _distributedCache.SetStringAsync(key, value,new DistributedCacheEntryOptions() { AbsoluteExpirationRelativeToNow = expiration});
+            {
+                var expiration = TimeSpan.FromSeconds(durationSeconds.Value);
+                await _distributedCache.SetStringAsync(key, value, new DistributedCacheEntryOptions() { AbsoluteExpirationRelativeToNow = expiration });
+            }
+            
         }
 
         public async Task<string> GetStringAsync(string key)
@@ -30,12 +34,16 @@ namespace Infrastructure.Cache
             return await _distributedCache.GetStringAsync(key);
         }
 
-        public async Task SetObjectAsync<T>(string key, T value, TimeSpan? expiration = null)
+        public async Task SetObjectAsync<T>(string key, T value, int? durationSeconds = -1)
         {
-            if(expiration == null)
-            await _distributedCache.SetAsync(key, value.ToByteArray());
+            if (durationSeconds == null || durationSeconds == -1)
+                await _distributedCache.SetAsync(key, value.ToByteArray());
             else
+            {
+                var expiration = TimeSpan.FromSeconds(durationSeconds.Value);
                 await _distributedCache.SetAsync(key, value.ToByteArray(), new DistributedCacheEntryOptions() { AbsoluteExpirationRelativeToNow = expiration });
+            }
+               
         }
 
         public async Task<T> GetObjectAsync<T>(string key)

@@ -25,28 +25,30 @@ namespace Infrastructure.Cache
             return Task.FromResult(_memoryCache.TryGetValue(key, out string value) ? value : default);
         }
 
-        public Task SetObjectAsync<T>(string key, T value, TimeSpan? expiration = null)
+        public Task SetObjectAsync<T>(string key, T value, int? durationSeconds = -1)
         {
-            if (expiration == null)
+            if (durationSeconds == null || durationSeconds != -1)
             {
                 _memoryCache.Set<T>(key, value);
             }
             else
             {
+                var expiration = TimeSpan.FromSeconds(durationSeconds.Value);
                 _memoryCache.Set<T>(key, value, new MemoryCacheEntryOptions { AbsoluteExpirationRelativeToNow = expiration });
             }
             return Task.CompletedTask;
         }
 
-        public Task SetStringAsync(string key, string value, TimeSpan? expiration = null)
+        public Task SetStringAsync(string key, string value, int? durationSeconds = -1)
         {
 
-            if(expiration == null)
+            if (durationSeconds == null || durationSeconds != -1)
             {
                 _memoryCache.Set<string>(key, value);
             }
             else
             {
+                var expiration = TimeSpan.FromSeconds(durationSeconds.Value);
                 _memoryCache.Set<string>(key, value,new MemoryCacheEntryOptions { AbsoluteExpirationRelativeToNow = expiration});
             }
             return Task.CompletedTask;

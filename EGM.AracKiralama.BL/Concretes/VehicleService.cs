@@ -4,6 +4,7 @@ using EGM.AracKiralama.DAL.Abstracts;
 using EGM.AracKiralama.Model.Dtos;
 using EGM.AracKiralama.Model.Entities;
 using Infra.Model.Dtos;
+using Infrastructure.Attributes;
 using Infrastructure.Cache;
 using Infrastructure.Exceptions;
 using Microsoft.AspNetCore.OutputCaching;
@@ -27,7 +28,7 @@ namespace EGM.AracKiralama.BL.Concretes
             _cacheService = cacheService;
         }
 
-        //[Cache("VehicleList",300)]
+        [Cache("VehicleList",300)]
         public async Task<List<VehicleListDto>> GetActiveVehicles()
         {           
 
