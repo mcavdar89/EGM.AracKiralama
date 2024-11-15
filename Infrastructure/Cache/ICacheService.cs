@@ -8,9 +8,9 @@ namespace Infrastructure.Cache
 {
     public interface ICacheService
     {
-        Task SetStringAsync(string key, string value);
+        Task SetStringAsync(string key, string value, TimeSpan? expiration=null );
         Task<string> GetStringAsync(string key);
-        Task SetObjectAsync<T>(string key, T value);
+        Task SetObjectAsync<T>(string key, T value, TimeSpan? expiration = null);
         Task<T> GetObjectAsync<T>(string key);
     }
 }

@@ -9,7 +9,7 @@ namespace Infrastructure.Cache
 {
     public static class CacheExtensions
     {
-        public static void AddRedisCache(this IServiceCollection services,RedisConfiguration redisConfiguration)
+        public static void AddInRedisCache(this IServiceCollection services,RedisConfiguration redisConfiguration)
         {
             services.AddStackExchangeRedisCache(options =>
             {
@@ -22,6 +22,16 @@ namespace Infrastructure.Cache
 
 
         }
+
+
+        public static void AddInMemoryCache(this IServiceCollection services)
+        {
+
+            services.AddMemoryCache();
+            services.AddSingleton<ICacheService, MemoryCacheService>();
+        }
+
+
 
     }
 }

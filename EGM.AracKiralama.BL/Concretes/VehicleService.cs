@@ -6,6 +6,7 @@ using EGM.AracKiralama.Model.Entities;
 using Infra.Model.Dtos;
 using Infrastructure.Cache;
 using Infrastructure.Exceptions;
+using Microsoft.AspNetCore.OutputCaching;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,35 +15,24 @@ using System.Threading.Tasks;
 
 namespace EGM.AracKiralama.BL.Concretes
 {
-    public class VehicleService:IVehicleService
+    public class VehicleService : IVehicleService
     {
         private readonly IAracKiralamaRepository _aracKiralamaRepository;
         private readonly IMapper _mapper;
         private readonly ICacheService _cacheService;
-        public VehicleService(IAracKiralamaRepository aracKiralamaRepository,IMapper mapper, ICacheService cacheService)
+        public VehicleService(IAracKiralamaRepository aracKiralamaRepository, IMapper mapper, ICacheService cacheService)
         {
             _aracKiralamaRepository = aracKiralamaRepository;
             _mapper = mapper;
             _cacheService = cacheService;
         }
 
-
+        //[Cache("VehicleList",300)]
         public async Task<List<VehicleListDto>> GetActiveVehicles()
-        {
-            var list = await _cacheService.GetObjectAsync<List<VehicleListDto>>("ActiveVehicles");
-
-            if(list != null)
-            {
-                return list;
-            }
-
+        {           
 
             var data = await _aracKiralamaRepository.ListProjectAsync<Vehicle, VehicleListDto>(d=>d.StatusId != 0);
-
-            await _cacheService.SetObjectAsync("ActiveVehicles", data);
-
-
-
+                    
             return data;
         }
         public async Task<VehicleDetailDto> GetActiveVehicle(string plate)

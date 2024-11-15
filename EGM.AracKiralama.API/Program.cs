@@ -84,7 +84,10 @@ builder.Services.AddDbContext<AracKiralamaDbContext>(options =>
 builder.Services.AddEGMLog(builder.Configuration.GetConnectionString("LogDbConnection"));
 #endregion
 
-builder.Services.AddRedisCache(builder.Configuration.GetSection("RedisConfiguration").Get<RedisConfiguration>());
+
+
+//builder.Services.AddInRedisCache(builder.Configuration.GetSection("RedisConfiguration").Get<RedisConfiguration>());
+builder.Services.AddInMemoryCache();
 
 
 builder.Services.AddAutoMapper(typeof(AracKiralamaProfile));
@@ -98,6 +101,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 TransactionManager.ImplicitDistributedTransactions = true;
 
 var app = builder.Build();
+
 
 app.UseSwagger();
 app.UseSwaggerUI();
