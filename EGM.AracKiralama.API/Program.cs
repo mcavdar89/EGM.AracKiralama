@@ -25,6 +25,16 @@ var builder = WebApplication.CreateBuilder(args);
 //API servislerini eklemek için
 builder.Services.AddControllers();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("defaultPolicy", policy =>
+    {
+        policy.AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+    });
+});
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -108,6 +118,7 @@ TransactionManager.ImplicitDistributedTransactions = true;
 
 var app = builder.Build();
 
+app.UseCors("defaultPolicy");
 
 app.UseSwagger();
 app.UseSwaggerUI();
