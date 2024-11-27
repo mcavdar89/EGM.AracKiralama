@@ -11,5 +11,6 @@ namespace EGM.AracKiralama.BL.Abstracts
     public interface IOASService
     {
         Task<List<PersonelListDto>> GetPersonelList();
+        Task<PersonelSepetDto> GetPersonelSepet(int personelId);
     }
 }

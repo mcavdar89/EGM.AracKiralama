@@ -18,14 +18,19 @@ namespace EGM.AracKiralama.API.Controllers
         }
 
 
-        [HttpGet("getperonellist")]
-        public async Task<IActionResult> GetGetPersonelListAsync()
+        [HttpGet("getpersonellist")]
+        public async Task<IActionResult> GetPersonelListAsync()
         {            
             var data = await _service.GetPersonelList();
             return Ok(data);
         }
-     
 
+        [HttpGet("getpersonelsepet/{personelId}")]
+        public async Task<IActionResult> GetPersonelSepetAsync([FromRoute] int personelId)
+        {
+            var data = await _service.GetPersonelSepet(personelId);
+            return Ok(data);
+        }
 
 
     }

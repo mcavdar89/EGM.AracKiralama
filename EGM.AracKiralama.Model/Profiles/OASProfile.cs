@@ -23,8 +23,14 @@ namespace EGM.AracKiralama.Model.Profiles
                .ForMember(dest => dest.UnvanAd, opt => opt.MapFrom(src => src.Birim.Ad))
                .ForMember(dest => dest.BirimAd, opt => opt.MapFrom(src => src.Unvan.Ad))
            ;
-           
 
+            CreateMap<PersonelSepetUrun, PersonelSepetUrunDto>()
+             .ForMember(dest => dest.UrunAd, opt => opt.MapFrom(src => src.Urun.Ad))
+            ;
+
+            CreateMap<PersonelSepet, PersonelSepetDto>()
+           .ForMember(dest => dest.PerosenelIsim, opt => opt.MapFrom(src => $"{src.Personel.Ad} {src.Personel.Soyad}" ))
+          ;
         }
 
 

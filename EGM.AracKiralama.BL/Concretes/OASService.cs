@@ -35,7 +35,13 @@ namespace EGM.AracKiralama.BL.Concretes
                     
             return data;
         }
-      
+        public async Task<PersonelSepetDto> GetPersonelSepet(int personelId)
+        {
+
+            var data = await _repository.GetProjectAsync<PersonelSepet, PersonelSepetDto>(d => d.StatusId != 0 && d.PersonelId == personelId);
+
+            return data;
+        }
 
     }
 }

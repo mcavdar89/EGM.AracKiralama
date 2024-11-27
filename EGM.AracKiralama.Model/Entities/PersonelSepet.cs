@@ -9,7 +9,11 @@ namespace EGM.AracKiralama.Model.Entities
 {
     public class PersonelSepet : BaseEntity<Guid>
     {
-        public int PerosenelId { get; set; }
+        public int PersonelId { get; set; }
+
+        public virtual Personel Personel { get; set; }
+        public virtual ICollection<PersonelSepetUrun> PersonelSepetUrunList {  get; set; }
+
     }
 
 }
