@@ -20,7 +20,7 @@ namespace Infra.DAL.Abstracts
         Task UpdateAsync<TEntity>(TEntity entity) where TEntity : Entity;
         void UpdateRange<TEntity>(IEnumerable<TEntity> entity) where TEntity : Entity;
         Task UpdateRangeAsync<TEntity>(IEnumerable<TEntity> entity) where TEntity : Entity;
-       
+
         void AddOrUpdate<TEntity>(TEntity entity) where TEntity : Entity;
         Task AddOrUpdateAsync<TEntity>(TEntity entity) where TEntity : Entity;
 
@@ -53,5 +53,10 @@ namespace Infra.DAL.Abstracts
        Expression<Func<TEntity, bool>>? filter = null
        ) where TEntity : Entity;
 
+        Task<TEntity>? GetAsync<TEntity>(
+      Expression<Func<TEntity, bool>>? filter = null
+      ) where TEntity : Entity;
+        Task<TEntity>? GetFromSqlAsync<TEntity>(string sqlQuery) where TEntity : Entity;
+        Task<List<TEntity>>? ListFromSqlAsync<TEntity>(string sqlQuery) where TEntity : Entity;
     }
 }

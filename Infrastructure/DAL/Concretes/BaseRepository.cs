@@ -306,5 +306,41 @@ namespace Infra.DAL.Concretes
 
             return await result.FirstOrDefaultAsync();
         }
+
+        public async Task<TEntity>? GetAsync<TEntity>(
+      Expression<Func<TEntity, bool>>? filter = null
+      ) where TEntity : Entity
+        {
+            IQueryable<TEntity> dbSet = _context.Set<TEntity>();
+            if (filter != null)
+            {
+                dbSet = dbSet.Where(filter);
+            }
+
+            return await dbSet.FirstOrDefaultAsync();
+        }
+
+
+        public async Task<TEntity>? GetFromSqlAsync<TEntity>(string sqlQuery) where TEntity : Entity
+        {
+            var dbSet = _context.Set<TEntity>();
+            if (!String.IsNullOrEmpty(sqlQuery))
+            {
+                return await dbSet.FromSqlRaw(sqlQuery).FirstOrDefaultAsync();
+            }
+
+            return await dbSet.FirstOrDefaultAsync();
+        }
+        public async Task<List<TEntity>>? ListFromSqlAsync<TEntity>(string sqlQuery) where TEntity : Entity
+        {
+            var dbSet = _context.Set<TEntity>();
+            if (!String.IsNullOrEmpty(sqlQuery))
+            {
+                dbSet.FromSqlRaw(sqlQuery);
+            }
+
+            return await dbSet.ToListAsync();
+        }
+
     }
 }

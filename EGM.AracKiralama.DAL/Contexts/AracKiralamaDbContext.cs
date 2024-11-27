@@ -1,4 +1,5 @@
 ﻿using EGM.AracKiralama.Model.Entities;
+using Infra.Model.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -15,13 +16,23 @@ namespace EGM.AracKiralama.DAL.Contexts
 
         }
 
-        public virtual DbSet<Brand> Brand { get; set; }
+        public DbSet<Brand> Brand { get; set; }
+        public DbSet<Role> Role { get; set; }
+        public DbSet<User> User { get; set; }
+        public DbSet<Vehicle> Vehicle { get; set; }
+        public DbSet<LogTable> LogTable { get; set; }
+        public DbSet<PersonelSepet> PersonelSepet { get; set; }
+        public DbSet<MiktarTur> MiktarTur { get; set; }
+        public DbSet<Urun> Urun { get; set; }
+        public DbSet<Unvan> Unvan { get; set; }
+        public DbSet<Birim> Birim { get; set; }
+        public DbSet<Personel> Personel { get; set; }
+        public DbSet<PersonelSepetUrun> PersonelSepetUrun { get; set; }
+
+
 
         //Tablo ismiyle entity ismi aynı olmak zorunda değil
         public virtual DbSet<BrandModel> Model { get; set; }
-        public virtual DbSet<Role> Role { get; set; }
-        public virtual DbSet<User> User { get; set; }
-        public virtual DbSet<Vehicle> Vehicle { get; set; }
 
 
 

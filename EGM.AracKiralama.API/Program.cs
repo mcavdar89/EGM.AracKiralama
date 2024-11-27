@@ -18,7 +18,7 @@ using System.Text;
 using System.Transactions;
 
 
-var proxyGenetor = new ProxyGenerator();
+//var proxyGenetor = new ProxyGenerator();
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -43,8 +43,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
     });
 builder.Services.AddAuthorization();
-
-
 
 builder.Services.AddSwaggerGen(swagger =>
 {
@@ -90,7 +88,7 @@ builder.Services.AddDbContext<AracKiralamaDbContext>(options =>
 builder.Services.AddEGMLog(builder.Configuration.GetConnectionString("LogDbConnection"));
 #endregion
 
-builder.Services.AddTransient<CachingInterceptor>();
+//builder.Services.AddTransient<CachingInterceptor>();
 
 //builder.Services.AddInRedisCache(builder.Configuration.GetSection("RedisConfiguration").Get<RedisConfiguration>());
 builder.Services.AddInMemoryCache();
@@ -102,6 +100,7 @@ builder.Services.AddAutoMapper(typeof(AracKiralamaProfile));
 builder.Services.AddScoped<IAracKiralamaRepository, AracKiralamaRepository>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IVehicleService, VehicleService>();
+builder.Services.AddScoped<IOASService, OASService>();
 
 //builder.Services.AddProxiedServices(proxyGenetor);
 

@@ -39,12 +39,13 @@ namespace EGM.AracKiralama.BL.Concretes
         public async Task<VehicleDetailDto> GetActiveVehicle(string plate)
         {
             //if
-            throw new Saat20SonrasiException("Araç sorgulamada 20:00 sonrası işlem yapmaya çalıştı.");
+            //throw new Saat20SonrasiException("Araç sorgulamada 20:00 sonrası işlem yapmaya çalıştı.");
 
 
-            var data = await _aracKiralamaRepository.GetProjectAsync<Vehicle,VehicleDetailDto>(d=>d.Plate == plate);
+            var data = await _aracKiralamaRepository.GetFromSqlAsync<Vehicle>($"select * from Vehicle where  Plate = '{plate}'");
+                //await _aracKiralamaRepository.GetProjectAsync<Vehicle,VehicleDetailDto>(d=>d.Plate == plate);
 
-            return data;
+            return _mapper.Map<VehicleDetailDto>(data);
         }
         public async Task<ResultDto<VehicleFormDto>> AddVehicle(VehicleFormDto item)
         {
