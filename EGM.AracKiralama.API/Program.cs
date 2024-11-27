@@ -112,7 +112,7 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.UseMiddleware<LogMiddleware>();
+//app.UseMiddleware<LogMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();
