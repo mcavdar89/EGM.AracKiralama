@@ -28,7 +28,7 @@ namespace EGM.AracKiralama.API.Controllers
         [HttpGet("getpersonelsepet/{personelId}")]
         public async Task<IActionResult> GetPersonelSepetAsync([FromRoute] int personelId)
         {
-            var data = await _service.GetPersonelSepet(personelId);
+            var data = await _service.GetPersonelSepetAsync(personelId);
             return Ok(data);
         }
 

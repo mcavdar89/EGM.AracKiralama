@@ -29,18 +29,23 @@ namespace EGM.AracKiralama.BL.Concretes
         }
 
         public async Task<List<PersonelListDto>> GetPersonelList()
-        {           
+        {
 
-            var data = await _repository.ListProjectAsync<Personel, PersonelListDto>(d=>d.StatusId != 0);
-                    
+            var data = await _repository.ListProjectAsync<Personel, PersonelListDto>(d => d.StatusId != 0);
+
             return data;
         }
-        public async Task<PersonelSepetDto> GetPersonelSepet(int personelId)
+        public async Task<ResultDto<PersonelSepetDto>> GetPersonelSepetAsync(int personelId)
         {
 
             var data = await _repository.GetProjectAsync<PersonelSepet, PersonelSepetDto>(d => d.StatusId != 0 && d.PersonelId == personelId);
 
-            return data;
+            if (data == null)
+            {
+                return await PerosnelSepetOlusturAsync(personelId);
+            }
+
+            return ResultDto<PersonelSepetDto>.Success(data);
         }
         public async Task<ResultDto<List<UrunDto>>> GetUrunListAsync()
         {
@@ -48,5 +53,21 @@ namespace EGM.AracKiralama.BL.Concretes
             var data = await _repository.ListProjectAsync<Urun, UrunDto>(d => d.StatusId != 0);
             return ResultDto<List<UrunDto>>.Success(data);
         }
+
+        public async Task<ResultDto<PersonelSepetDto>> PerosnelSepetOlusturAsync(int personelId)
+        {
+            var data = new PersonelSepet()
+            {
+                Id = Guid.NewGuid(),
+                PersonelId = personelId,
+                LastTransactionDate = DateTime.Now
+            };
+            await _repository.AddAsync(data);
+            await _repository.SaveChangesAsync();
+
+            return await GetPersonelSepetAsync(personelId);
+        }
+
+
     }
 }
