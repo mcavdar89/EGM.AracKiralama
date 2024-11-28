@@ -10,9 +10,9 @@ namespace EGM.AracKiralama.Model.Dtos
     public class PersonelSepetDto : BaseDto
     {
         public Guid Id { get; set; }
-        public int PerosenelId { get; set; }
-        public string PerosenelIsim { get; set; }
-        public decimal ToplamTutra { get; set; }
+        public int PersonelId { get; set; }
+        public string PersonelIsim { get; set; }
+        public decimal ToplamTutar { get; set; }
 
         public List<PersonelSepetUrunDto> PersonelSepetUrunList { get; set; }
 

@@ -28,12 +28,12 @@ namespace EGM.AracKiralama.BL.Concretes
             _cacheService = cacheService;
         }
 
-        public async Task<List<PersonelListDto>> GetPersonelList()
+        public async Task<ResultDto<List<PersonelListDto>>> GetPersonelList()
         {
 
             var data = await _repository.ListProjectAsync<Personel, PersonelListDto>(d => d.StatusId != 0);
 
-            return data;
+            return ResultDto<List<PersonelListDto>>.Success(data);
         }
         public async Task<ResultDto<PersonelSepetDto>> GetPersonelSepetAsync(int personelId)
         {
@@ -42,7 +42,7 @@ namespace EGM.AracKiralama.BL.Concretes
 
             if (data == null)
             {
-                return await PerosnelSepetOlusturAsync(personelId);
+                return await PersonelSepetOlusturAsync(personelId);
             }
 
             return ResultDto<PersonelSepetDto>.Success(data);
@@ -54,7 +54,7 @@ namespace EGM.AracKiralama.BL.Concretes
             return ResultDto<List<UrunDto>>.Success(data);
         }
 
-        public async Task<ResultDto<PersonelSepetDto>> PerosnelSepetOlusturAsync(int personelId)
+        public async Task<ResultDto<PersonelSepetDto>> PersonelSepetOlusturAsync(int personelId)
         {
             var data = new PersonelSepet()
             {
