@@ -18,5 +18,7 @@ namespace EGM.AracKiralama.Model.Entities
         public virtual Unvan? Unvan { get; set; }
 
         public virtual Birim? Birim { get; set; }
+
+        public virtual PersonelSepet PersonelSepet { get; set; }
     }
 }

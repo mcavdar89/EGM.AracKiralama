@@ -16,6 +16,7 @@ namespace EGM.AracKiralama.Model.Dtos
         public string UnvanAd { get; set; }
         public int BirimId { get; set; }
         public string BirimAd { get; set; }
+        public int SepetUrunSayisi { get; set; }
         public DateTime LastTransactionDate { get; set; }
 
     }

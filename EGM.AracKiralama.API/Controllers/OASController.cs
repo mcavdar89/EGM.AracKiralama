@@ -38,6 +38,16 @@ namespace EGM.AracKiralama.API.Controllers
             var data = await _service.GetUrunListAsync();
             return Ok(data);
         }
+
+
+        [HttpPost("kaydetpersonelsepet")]
+        public async Task<IActionResult> KaydetPersonelSepetAsync([FromBody]PersonelSepetDto item)
+        {
+            var data = await _service.KaydetPersonelSepetAsync(item);
+            return Ok(data);
+        }
+
+
     }
 
 }

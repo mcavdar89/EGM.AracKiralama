@@ -68,6 +68,26 @@ namespace EGM.AracKiralama.BL.Concretes
             return await GetPersonelSepetAsync(personelId);
         }
 
+        public async Task<ResultDto<PersonelSepetDto>> KaydetPersonelSepetAsync(PersonelSepetDto item)
+        {
+            var kayitliList = await _repository.ListAsync<PersonelSepetUrun>(d => d.PersonelSepetId == item.Id);
+
+            _repository.DeleteRange(kayitliList,true);
+            await _repository.SaveChangesAsync();
+            
+            var data = _mapper.Map<List<PersonelSepetUrun>>(item.PersonelSepetUrunList);
+
+            foreach (var item2 in data)
+            {
+                item2.LastTransactionDate = DateTime.Now;
+            }
+
+            await _repository.AddRangeAsync(data);
+            await _repository.SaveChangesAsync();
+
+            return ResultDto<PersonelSepetDto>.Success(item, "Kaydetme işlemi başarılı");
+        }
+
 
     }
 }
