@@ -14,5 +14,8 @@ namespace EGM.AracKiralama.BL.Abstracts
         Task<ResultDto<PersonelSepetDto>> GetPersonelSepetAsync(int personelId);
         Task<ResultDto<List<UrunDto>>> GetUrunListAsync();
         Task<ResultDto<PersonelSepetDto>> PerosnelSepetOlusturAsync(int personelId);
+
+        ///test
+
     }
 }
