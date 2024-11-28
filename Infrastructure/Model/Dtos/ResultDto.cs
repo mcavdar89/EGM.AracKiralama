@@ -11,6 +11,7 @@ namespace Infra.Model.Dtos
         public T? Data { get; set; }
         public bool IsSuccess { get; set; }
         public string? Message { get; set; }
+        public int statusCode { get; set; } = 200;
 
         public static ResultDto<T> Success(T data, string? message = null)
         {

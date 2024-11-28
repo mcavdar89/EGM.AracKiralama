@@ -42,11 +42,11 @@ namespace EGM.AracKiralama.BL.Concretes
 
             return data;
         }
-        public async Task<UrunDto> GetUrunListAsync()
+        public async Task<ResultDto<List<UrunDto>>> GetUrunListAsync()
         {
 
             var data = await _repository.ListProjectAsync<Urun, UrunDto>(d => d.StatusId != 0);
-            return data;
+            return ResultDto<List<UrunDto>>.Success(data);
         }
     }
 }
