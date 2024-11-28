@@ -32,7 +32,12 @@ namespace EGM.AracKiralama.API.Controllers
             return Ok(data);
         }
 
-
+        [HttpGet("urunlist")]
+        public async Task<IActionResult> GetUrunListAsync()
+        {
+            var data = await _service.GetUrunListAsync();
+            return Ok(data);
+        }
     }
 
 }
