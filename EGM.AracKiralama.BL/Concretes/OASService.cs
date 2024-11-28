@@ -88,6 +88,19 @@ namespace EGM.AracKiralama.BL.Concretes
             return ResultDto<PersonelSepetDto>.Success(item, "Kaydetme işlemi başarılı");
         }
 
+        public async Task<ResultDto<List<MarketDto>>> GetMarketListAsync()
+        {
+
+            var data = await _repository.ListProjectAsync<Market, MarketDto>(d => d.StatusId != 0);
+            return ResultDto<List<MarketDto>>.Success(data);
+        }
+        public async Task<ResultDto<MarketUrunDto>> GetMarketUrunListAsync(int marketId)
+        {
+
+            var data = await _repository.GetProjectAsync<MarketUrun, MarketUrunDto>(d => d.StatusId != 0 && d.MarketId == marketId);            
+
+            return ResultDto<MarketUrunDto>.Success(data);
+        }
 
     }
 }

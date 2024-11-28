@@ -36,6 +36,12 @@ namespace EGM.AracKiralama.Model.Profiles
           ;
             CreateMap<PersonelSepetDto, PersonelSepet>();
             CreateMap<Urun, UrunDto>();
+
+
+
+            CreateMap<Market, MarketDto>();
+            CreateMap<MarketUrun, MarketUrunDto>();
+
         }
 
 

@@ -28,6 +28,8 @@ namespace EGM.AracKiralama.DAL.Contexts
         public DbSet<Birim> Birim { get; set; }
         public DbSet<Personel> Personel { get; set; }
         public DbSet<PersonelSepetUrun> PersonelSepetUrun { get; set; }
+        public DbSet<Market> Market { get; set; }
+        public DbSet<MarketUrun> MarketUrun { get; set; }
 
 
 

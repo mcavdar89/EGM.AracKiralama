@@ -47,7 +47,18 @@ namespace EGM.AracKiralama.API.Controllers
             return Ok(data);
         }
 
-
+        [HttpGet("getmarketlist")]
+        public async Task<IActionResult> GetMarketListAsync()
+        {
+            var data = await _service.GetMarketListAsync();
+            return Ok(data);
+        }
+        [HttpGet("getmarketurunlist/{marketId}")]
+        public async Task<IActionResult> GetMarketUrunListAsync([FromRoute] int marketId)
+        {
+            var data = await _service.GetMarketUrunListAsync(marketId);
+            return Ok(data);
+        }
     }
 
 }
