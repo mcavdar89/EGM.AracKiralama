@@ -31,6 +31,7 @@ namespace EGM.AracKiralama.Model.Profiles
             CreateMap<PersonelSepet, PersonelSepetDto>()
            .ForMember(dest => dest.PerosenelIsim, opt => opt.MapFrom(src => $"{src.Personel.Ad} {src.Personel.Soyad}" ))
           ;
+            CreateMap<Urun, UrunDto>();
         }
 
 
