@@ -44,6 +44,10 @@ namespace EGM.AracKiralama.Model.Profiles
              .ForMember(dest => dest.UrunAd, opt => opt.MapFrom(src => src.Urun.Ad))
                 ;
 
+
+            CreateMap<MiktarTur, MiktarTurDto>();
+
+
         }
 
 

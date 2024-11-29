@@ -102,5 +102,12 @@ namespace EGM.AracKiralama.BL.Concretes
             return ResultDto<List<MarketUrunDto>>.Success(data);
         }
 
+        public async Task<ResultDto<List<MiktarTurDto>>> GetMiktarTurListAsync()
+        {
+
+            var data = await _repository.ListProjectAsync<MiktarTur, MiktarTurDto>(d => d.StatusId != 0);
+
+            return ResultDto<List<MiktarTurDto>>.Success(data);
+        }
     }
 }

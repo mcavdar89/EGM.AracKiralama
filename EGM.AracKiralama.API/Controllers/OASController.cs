@@ -59,6 +59,16 @@ namespace EGM.AracKiralama.API.Controllers
             var data = await _service.GetMarketUrunListAsync(marketId);
             return Ok(data);
         }
+
+        [HttpGet("getmiktarturlistfordropdown")]
+        public async Task<IActionResult> GetMiktarTurListAsync()
+        {
+            var data = await _service.GetMiktarTurListAsync();
+            return Ok(data);
+        }
+
+
+
     }
 
 }
