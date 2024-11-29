@@ -109,5 +109,20 @@ namespace EGM.AracKiralama.BL.Concretes
 
             return ResultDto<List<MiktarTurDto>>.Success(data);
         }
+
+
+        public async Task<ResultDto<UrunDto>> KaydetUrunAsync(UrunDto item)
+        {
+           var data = _mapper.Map<Urun>(item);
+            data.LastTransactionDate = DateTime.Now;
+            data.StatusId = 1;
+            await _repository.AddAsync(data);
+            await _repository.SaveChangesAsync();
+
+            return ResultDto<UrunDto>.Success(item, "Kaydetme işlemi başarılı");
+        }
+
+
+
     }
 }

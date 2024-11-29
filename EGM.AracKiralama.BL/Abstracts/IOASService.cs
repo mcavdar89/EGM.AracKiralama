@@ -20,7 +20,7 @@ namespace EGM.AracKiralama.BL.Abstracts
 
         Task<ResultDto<List<MiktarTurDto>>> GetMiktarTurListAsync();
 
-
+        Task<ResultDto<UrunDto>> KaydetUrunAsync(UrunDto item);
 
 
         ///test

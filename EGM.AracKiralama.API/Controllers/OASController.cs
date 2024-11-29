@@ -67,6 +67,12 @@ namespace EGM.AracKiralama.API.Controllers
             return Ok(data);
         }
 
+        [HttpPost("kaydeturun")]
+        public async Task<IActionResult> KaydetUrunAsync([FromBody]UrunDto urun)
+        {
+            var data = await _service.KaydetUrunAsync(urun);
+            return Ok(data);
+        }
 
 
     }
