@@ -94,12 +94,12 @@ namespace EGM.AracKiralama.BL.Concretes
             var data = await _repository.ListProjectAsync<Market, MarketDto>(d => d.StatusId != 0);
             return ResultDto<List<MarketDto>>.Success(data);
         }
-        public async Task<ResultDto<MarketUrunDto>> GetMarketUrunListAsync(int marketId)
+        public async Task<ResultDto<List<MarketUrunDto>>> GetMarketUrunListAsync(int marketId)
         {
 
-            var data = await _repository.GetProjectAsync<MarketUrun, MarketUrunDto>(d => d.StatusId != 0 && d.MarketId == marketId);            
+            var data = await _repository.ListProjectAsync<MarketUrun, MarketUrunDto>(d => d.StatusId != 0 && d.MarketId == marketId);            
 
-            return ResultDto<MarketUrunDto>.Success(data);
+            return ResultDto<List<MarketUrunDto>>.Success(data);
         }
 
     }
