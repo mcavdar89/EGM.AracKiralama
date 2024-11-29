@@ -13,5 +13,7 @@ namespace EGM.AracKiralama.Model.Entities
         public string? Adres { get; set; }
         public decimal? Puan { get; set; }
 
+
+
     }
 }

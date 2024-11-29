@@ -15,5 +15,7 @@ namespace EGM.AracKiralama.Model.Entities
         public decimal Stok { get; set; }
         public decimal Puan { get; set; }
 
+        public virtual Urun Urun { get; set; }
+
     }
 }
