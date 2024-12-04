@@ -60,6 +60,15 @@ namespace EGM.AracKiralama.API.Controllers
             return Ok(data);
         }
 
+        [HttpPost("kaydetmarketurun")]
+        public async Task<IActionResult> KaydetMarketUrunAsync([FromBody] MarketUrunDto item)
+        {
+            var data = await _service.GetMarketUrunListAsync(marketId);
+            return Ok(data);
+        }
+
+
+
         [HttpGet("getmiktarturlistfordropdown")]
         public async Task<IActionResult> GetMiktarTurListAsync()
         {

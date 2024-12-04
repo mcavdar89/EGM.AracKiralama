@@ -17,6 +17,7 @@ namespace EGM.AracKiralama.BL.Abstracts
         Task<ResultDto<PersonelSepetDto>> KaydetPersonelSepetAsync(PersonelSepetDto item);
         Task<ResultDto<List<MarketDto>>> GetMarketListAsync();
         Task<ResultDto<List<MarketUrunDto>>> GetMarketUrunListAsync(int marketId);
+        Task<ResultDto<MarketUrunDto>> KaydetMarketUrunAsync(MarketUrunDto item);
 
         Task<ResultDto<List<MiktarTurDto>>> GetMiktarTurListAsync();
 

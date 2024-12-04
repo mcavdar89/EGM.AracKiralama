@@ -72,9 +72,9 @@ namespace EGM.AracKiralama.BL.Concretes
         {
             var kayitliList = await _repository.ListAsync<PersonelSepetUrun>(d => d.PersonelSepetId == item.Id);
 
-            _repository.DeleteRange(kayitliList,true);
+            _repository.DeleteRange(kayitliList, true);
             await _repository.SaveChangesAsync();
-            
+
             var data = _mapper.Map<List<PersonelSepetUrun>>(item.PersonelSepetUrunList);
 
             foreach (var item2 in data)
@@ -97,10 +97,35 @@ namespace EGM.AracKiralama.BL.Concretes
         public async Task<ResultDto<List<MarketUrunDto>>> GetMarketUrunListAsync(int marketId)
         {
 
-            var data = await _repository.ListProjectAsync<MarketUrun, MarketUrunDto>(d => d.StatusId != 0 && d.MarketId == marketId);            
+            var data = await _repository.ListProjectAsync<MarketUrun, MarketUrunDto>(d => d.StatusId != 0 && d.MarketId == marketId);
 
             return ResultDto<List<MarketUrunDto>>.Success(data);
         }
+
+
+        public async Task<ResultDto<MarketUrunDto>> KaydetMarketUrunAsync(MarketUrunDto item)
+        {
+
+            var data = await _repository.GetAsync<MarketUrun>(d => d.UrunId == item.UrunId);
+            if (data == null)
+            {
+                data = _mapper.Map<MarketUrun>(item);
+                data.Id = Guid.NewGuid();
+                await _repository.AddAsync(data);
+            }
+            else
+            {
+                data.Stok = item.Stok;
+                data.Fiyat = item.Fiyat;
+                _repository.Update(data);
+
+            }
+            await _repository.SaveChangesAsync();
+            item.Id = data.Id;
+
+            return ResultDto<MarketUrunDto>.Success(item);
+        }
+
 
         public async Task<ResultDto<List<MiktarTurDto>>> GetMiktarTurListAsync()
         {
@@ -113,7 +138,7 @@ namespace EGM.AracKiralama.BL.Concretes
 
         public async Task<ResultDto<UrunDto>> KaydetUrunAsync(UrunDto item)
         {
-           var data = _mapper.Map<Urun>(item);
+            var data = _mapper.Map<Urun>(item);
             data.LastTransactionDate = DateTime.Now;
             data.StatusId = 1;
             await _repository.AddAsync(data);
