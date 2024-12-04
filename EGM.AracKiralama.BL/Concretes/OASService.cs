@@ -111,12 +111,14 @@ namespace EGM.AracKiralama.BL.Concretes
             {
                 data = _mapper.Map<MarketUrun>(item);
                 data.Id = Guid.NewGuid();
+                data.LastTransactionDate = DateTime.Now;
                 await _repository.AddAsync(data);
             }
             else
             {
                 data.Stok = item.Stok;
                 data.Fiyat = item.Fiyat;
+                data.LastTransactionDate = DateTime.Now;
                 _repository.Update(data);
 
             }
