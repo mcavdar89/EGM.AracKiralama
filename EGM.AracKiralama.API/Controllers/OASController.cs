@@ -63,7 +63,7 @@ namespace EGM.AracKiralama.API.Controllers
         [HttpPost("kaydetmarketurun")]
         public async Task<IActionResult> KaydetMarketUrunAsync([FromBody] MarketUrunDto item)
         {
-            var data = await _service.GetMarketUrunListAsync(marketId);
+            var data = await _service.KaydetMarketUrunAsync(item);
             return Ok(data);
         }
 
