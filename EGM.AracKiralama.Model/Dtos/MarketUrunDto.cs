@@ -9,7 +9,7 @@ namespace EGM.AracKiralama.Model.Dtos
 {
     public class MarketUrunDto : BaseEntity<short>
     {
-        public Guid Id { get; set; }
+        public Guid? Id { get; set; }
         public int MarketId { get; set; }
         public int UrunId { get; set; }
         public string UrunAd { get; set; }
