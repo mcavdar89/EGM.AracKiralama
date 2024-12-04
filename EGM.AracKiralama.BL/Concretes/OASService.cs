@@ -140,6 +140,14 @@ namespace EGM.AracKiralama.BL.Concretes
 
         public async Task<ResultDto<UrunDto>> KaydetUrunAsync(UrunDto item)
         {
+            var tempData = await _repository.GetAsync<Urun>(d => d.Ad == item.Ad);
+            if (tempData != null)
+            {
+                return ResultDto<UrunDto>.Error("Aynı ürün zaten kayıtlı");
+
+            }
+
+
             var data = _mapper.Map<Urun>(item);
             data.LastTransactionDate = DateTime.Now;
             data.StatusId = 1;
