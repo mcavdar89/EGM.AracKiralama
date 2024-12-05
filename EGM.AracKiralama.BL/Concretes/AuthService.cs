@@ -23,7 +23,7 @@ namespace EGM.AracKiralama.BL.Concretes
             _repository = repository;
         }
 
-        public async Task<ResultDto<JwtDto>> LoginAsync(LoginDto item)
+        public async Task<ResultDto<string>> LoginAsync(LoginDto item)
         {
             JwtDto jwtDto = new JwtDto();
 
@@ -46,7 +46,7 @@ namespace EGM.AracKiralama.BL.Concretes
             //Veri tabanı login kontrolude olabilir            
             if (!(item.EPosta == "mcavdar@gmail.com" && item.Password == "Aa123"))
             {
-                return ResultDto<JwtDto>.Error("EPosta veya paralo yanlış");
+                return ResultDto<string>.Error("EPosta veya paralo yanlış");
             }
 
             var userdto = await _repository.GetProjectAsync<User, UserDto>(d => d.EPosta == item.EPosta);
@@ -57,7 +57,7 @@ namespace EGM.AracKiralama.BL.Concretes
 
             jwtDto.Token = token;
 
-            return ResultDto<JwtDto>.Success(jwtDto);
+            return ResultDto<string>.Success(token);
         }
 
         private string CreateToken(UserDto user)

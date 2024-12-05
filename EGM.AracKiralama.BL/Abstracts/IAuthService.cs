@@ -11,6 +11,6 @@ namespace EGM.AracKiralama.BL.Abstracts
 {
     public interface IAuthService
     {
-        Task<ResultDto<JwtDto>> LoginAsync(LoginDto item);
+        Task<ResultDto<string>> LoginAsync(LoginDto item);
     }
 }

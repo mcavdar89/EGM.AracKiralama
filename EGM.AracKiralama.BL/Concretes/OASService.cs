@@ -154,6 +154,9 @@ namespace EGM.AracKiralama.BL.Concretes
             await _repository.AddAsync(data);
             await _repository.SaveChangesAsync();
 
+            item.Id = data.Id;
+
+
             return ResultDto<UrunDto>.Success(item, "Kaydetme işlemi başarılı");
         }
 

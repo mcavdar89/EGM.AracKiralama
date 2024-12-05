@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Infra.Model.Dtos
 {
-    public class ResultDto<T> where T : class, new()
+    public class ResultDto<T>
     {
         public T? Data { get; set; }
         public bool IsSuccess { get; set; }
@@ -23,7 +23,7 @@ namespace Infra.Model.Dtos
             };
             return result;
         }
-        public static ResultDto<T> Error(string message, T? data = null)
+        public static ResultDto<T> Error(string message, T? data = default)
         {
             var result = new ResultDto<T>()
             {
