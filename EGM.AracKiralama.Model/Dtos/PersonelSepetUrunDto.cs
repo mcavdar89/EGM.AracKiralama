@@ -15,6 +15,7 @@ namespace EGM.AracKiralama.Model.Dtos
         public string UrunAd { get; set; }
         public decimal Miktar { get; set; }
         public decimal Tutar { get; set; }
+        public DateTime LastTransactionDate { get; set; }
 
     }
 }

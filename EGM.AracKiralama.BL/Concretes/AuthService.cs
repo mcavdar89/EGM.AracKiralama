@@ -72,8 +72,8 @@ namespace EGM.AracKiralama.BL.Concretes
 
             var claims = new List<Claim>();
             claims.Add(new Claim("id", user.Id.ToString()));
-            claims.Add(new Claim("name", user.Name));
-            claims.Add(new Claim("surname", user.Surname));
+            claims.Add(new Claim("ad", user.Name));
+            claims.Add(new Claim("soyad", user.Surname));
             foreach (var item in user.Roles)
             {
                 claims.Add(new Claim(ClaimTypes.Role, item));

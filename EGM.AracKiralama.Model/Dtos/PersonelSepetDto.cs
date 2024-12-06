@@ -14,6 +14,8 @@ namespace EGM.AracKiralama.Model.Dtos
         public string PersonelIsim { get; set; }
         public decimal ToplamTutar { get; set; }
 
+        public DateTime LastTransactionDate { get; set; }
+
         public List<PersonelSepetUrunDto> PersonelSepetUrunList { get; set; }
 
 
