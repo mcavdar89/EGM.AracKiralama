@@ -1,4 +1,5 @@
 ﻿using Castle.DynamicProxy;
+using EGM.AracKiralama.API.Hubs;
 using EGM.AracKiralama.BL.Abstracts;
 using EGM.AracKiralama.BL.Concretes;
 using EGM.AracKiralama.DAL.Abstracts;
