@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
 using System.Collections.Concurrent;
 
 namespace EGM.AracKiralama.API.Hubs
 {
+    [Authorize]
     public class ChatHub : Hub
     {
         private static readonly ConcurrentDictionary<string, string> ConnectedUsers = new();
@@ -30,7 +32,7 @@ namespace EGM.AracKiralama.API.Hubs
 
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
-            string userName = Context.GetHttpContext()?.User?.Claims.FirstOrDefault(d => d.Type == "ad").Value;
+            string userName = Context.GetHttpContext()?.User?.Claims.FirstOrDefault(d => d.Type == "ePosta").Value;
             string connectionId = Context.ConnectionId;
             if(ConnectedUsers.TryRemove(userName, out string? id))
             {
