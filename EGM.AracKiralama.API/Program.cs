@@ -24,6 +24,7 @@ using System.Transactions;
 var builder = WebApplication.CreateBuilder(args);
 //API servislerini eklemek için
 builder.Services.AddControllers();
+builder.Services.AddSignalR();
 
 builder.Services.AddCors(options =>
 {
@@ -128,6 +129,8 @@ app.UseSwaggerUI();
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.MapHub<ChatHub>("/chatHub");
 app.MapDefaultControllerRoute();
+
 
 app.Run();
