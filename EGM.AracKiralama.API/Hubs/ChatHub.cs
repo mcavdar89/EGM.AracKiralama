@@ -14,7 +14,10 @@ namespace EGM.AracKiralama.API.Hubs
         public override async Task OnConnectedAsync()
         {
             string connectionId = Context.ConnectionId;
-            string userName = Context.GetHttpContext()?.Request.Query["username"];
+            string userName = Context.GetHttpContext()?.User?.Claims.FirstOrDefault(d => d.Type == "ad").Value;
+                
+                
+                //Context.GetHttpContext()?.Request.Query["access_Token"];
 
             if (!String.IsNullOrEmpty(userName))
             {
@@ -27,10 +30,11 @@ namespace EGM.AracKiralama.API.Hubs
 
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
+            string userName = Context.GetHttpContext()?.User?.Claims.FirstOrDefault(d => d.Type == "ad").Value;
             string connectionId = Context.ConnectionId;
-            if(ConnectedUsers.TryRemove(connectionId,out string? username))
+            if(ConnectedUsers.TryRemove(userName, out string? id))
             {
-                await Clients.All.SendAsync("userDisconnected", username);
+                await Clients.All.SendAsync("userDisconnected", userName);
             }
 
             await base.OnDisconnectedAsync(exception);
