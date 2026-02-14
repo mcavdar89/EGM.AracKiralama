@@ -114,7 +114,7 @@ builder.Services.AddDbContext<AracKiralamaDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("AracKiralamaConnection"));
 });
 #region LogService ayarları
-builder.Services.AddEGMLog(builder.Configuration.GetConnectionString("LogDbConnection"));
+//builder.Services.AddEGMLog(builder.Configuration.GetConnectionString("LogDbConnection"));
 #endregion
 
 //builder.Services.AddTransient<CachingInterceptor>();
