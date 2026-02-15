@@ -49,7 +49,15 @@ namespace EGM.AracKiralama.BL.Concretes
                 return ResultDto<string>.Error("EPosta veya paralo yanlış");
             }
 
-            var userdto = await _repository.GetProjectAsync<User, UserDto>(d => d.EPosta == item.EPosta);
+            var userdto = new UserDto()
+            {
+                Id=1,
+                Name="Mustafa",
+                Surname="ÇAVDAROĞLU",
+                EPosta="mcavdar@gmail.com",
+
+            };
+                //await _repository.GetProjectAsync<User, UserDto>(d => d.EPosta == item.EPosta);
             userdto.Roles = new List<string>();
             userdto.Roles.Add("admin");
 
