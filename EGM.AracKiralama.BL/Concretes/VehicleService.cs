@@ -46,8 +46,27 @@ namespace EGM.AracKiralama.BL.Concretes
 
             return data;
         }
-        public async Task<VehicleDetailDto> GetActiveVehicle(string plate)
+        public async Task<VehicleListDto> GetActiveVehicle(int id)
         {
+
+            var list = new List<VehicleListDto>() {
+                new VehicleListDto(){ Id=1,BrandAd="Renault",ModelAd="Clio",Plate="34ABC34" },
+                new VehicleListDto(){ Id=2,BrandAd="Fiat",ModelAd="Egea",Plate="34DEF34" },
+                new VehicleListDto(){ Id=3,BrandAd="Volkswagen",ModelAd="Passat",Plate="34GHI34" },
+                new VehicleListDto(){ Id=4,BrandAd="Ford",ModelAd="Focus",Plate="34JKL34" },
+                new VehicleListDto(){ Id=5,BrandAd="Opel",ModelAd="Astra",Plate="34MNO34" },
+                new VehicleListDto(){ Id=6,BrandAd="Hyundai",ModelAd="i20",Plate="34PQR34" },
+                new VehicleListDto(){ Id=7,BrandAd="Toyota",ModelAd="Corolla",Plate="34STU34" },
+                new VehicleListDto(){ Id=8,BrandAd="Honda",ModelAd="Civic",Plate="34VWX34" },
+                new VehicleListDto(){ Id=9,BrandAd="Mazda",ModelAd="3",Plate="34YZA34" },
+                new VehicleListDto(){ Id=10,BrandAd="Nissan",ModelAd="Qashqai",Plate="34BCD34" }
+            };
+
+
+            var data = list.FirstOrDefault(d => d.Id == id);
+
+
+
             //if
             //throw new Saat20SonrasiException("Araç sorgulamada 20:00 sonrası işlem yapmaya çalıştı.");
 
@@ -59,7 +78,7 @@ namespace EGM.AracKiralama.BL.Concretes
 
 
             //return _mapper.Map<VehicleDetailDto>(data);
-            return null;
+            return ResultDto<VehicleListDto>.Success(data); ;
         }
         public async Task<ResultDto<VehicleFormDto>> AddVehicle(VehicleFormDto item)
         {

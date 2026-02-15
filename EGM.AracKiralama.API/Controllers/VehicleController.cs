@@ -24,10 +24,10 @@ namespace EGM.AracKiralama.API.Controllers
             var data = await _service.GetActiveVehicles();
             return Ok(data);
         }
-        [HttpGet("getvehile/{plate}")]
-        public async Task<IActionResult> GetActiveVehicleAsync([FromRoute]string plate)
+        [HttpGet("getvehile/{id}")]
+        public async Task<IActionResult> GetActiveVehicleAsync([FromRoute]int id)
         {
-            var data = await _service.GetActiveVehicle(plate);
+            var data = await _service.GetActiveVehicle(id);
             return Ok(data);
         }
 
