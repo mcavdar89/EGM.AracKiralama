@@ -17,7 +17,7 @@ namespace EGM.AracKiralama.API.Controllers
             _service = service;
         }
 
-
+        [Authorize]
         [HttpGet("getvehiles")]
         public async Task<IActionResult> GetActiveVehiclesAsync()
         {            
