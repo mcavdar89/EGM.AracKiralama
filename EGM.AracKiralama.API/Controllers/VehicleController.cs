@@ -24,6 +24,7 @@ namespace EGM.AracKiralama.API.Controllers
             var data = await _service.GetActiveVehicles();
             return Ok(data);
         }
+        [Authorize]
         [HttpGet("getvehile/{id}")]
         public async Task<IActionResult> GetActiveVehicleAsync([FromRoute]int id)
         {
