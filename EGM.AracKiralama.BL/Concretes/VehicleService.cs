@@ -46,7 +46,7 @@ namespace EGM.AracKiralama.BL.Concretes
 
             return data;
         }
-        public async Task<VehicleListDto> GetActiveVehicle(int id)
+        public async Task<ResultDto<VehicleDetailDto>> GetActiveVehicle(int id)
         {
 
             var list = new List<VehicleListDto>() {

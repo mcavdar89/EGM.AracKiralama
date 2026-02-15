@@ -11,7 +11,7 @@ namespace EGM.AracKiralama.BL.Abstracts
     public interface IVehicleService
     {
         Task<List<VehicleListDto>> GetActiveVehicles();
-        Task<VehicleListDto> GetActiveVehicle(int id);
+        Task<ResultDto<VehicleDetailDto>> GetActiveVehicle(int id);
         Task<ResultDto<VehicleFormDto>> AddVehicle(VehicleFormDto item);
     }
 }
